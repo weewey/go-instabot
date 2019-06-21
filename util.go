@@ -72,7 +72,7 @@ func check(err error) {
 }
 
 // Parses the options given to the script
-func parseOptions() {
+func ParseOptions() {
 	run = flag.Bool("run", false, "Use this option to follow, like and comment")
 	unfollow = flag.Bool("sync", false, "Use this option to unfollow those who are not following back")
 	nomail = flag.Bool("nomail", false, "Use this option to disable the email notifications")
@@ -96,7 +96,7 @@ func parseOptions() {
 }
 
 // Gets the conf in the config file
-func getConfig() {
+func GetConfig() {
 	folder := "config"
 	if *dev {
 		folder = "local"

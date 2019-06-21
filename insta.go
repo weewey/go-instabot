@@ -4,6 +4,9 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
+	"github.com/ahmdrz/goinsta"
+	"github.com/ahmdrz/goinsta/response"
+	"github.com/tducasse/goinsta/store"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -12,23 +15,20 @@ import (
 	"time"
 
 	"github.com/spf13/viper"
-	"github.com/tducasse/goinsta"
-	"github.com/tducasse/goinsta/response"
-	"github.com/tducasse/goinsta/store"
 )
 
 // Insta is a goinsta.Instagram instance
 var insta *goinsta.Instagram
 
 // login will try to reload a previous session, and will create a new one if it can't
-func login() {
+func Login() {
 	err := reloadSession()
 	if err != nil {
 		createAndSaveSession()
 	}
 }
 
-func syncFollowers() {
+func SyncFollowers() {
 	following, err := insta.SelfTotalUserFollowing()
 	check(err)
 	followers, err := insta.SelfTotalUserFollowers()
@@ -123,7 +123,7 @@ func createKey() []byte {
 }
 
 // Go through all the tags in the list
-func loopTags() {
+func LoopTags() {
 	for tag = range tagsList {
 		limitsConf := viper.GetStringMap("tags." + tag)
 		// Some converting

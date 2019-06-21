@@ -1,16 +1,35 @@
 package main
 
+import (
+	"github.com/robfig/cron"
+	"log"
+	"os"
+	"os/signal"
+)
+
 func main() {
 	// Gets the command line options
-	parseOptions()
+	ParseOptions()
 	// Gets the config
-	getConfig()
+	GetConfig()
 	// Tries to login
-	login()
+	Login()
+
 	if *unfollow {
-		syncFollowers()
+		SyncFollowers()
 	} else if *run {
 		// Loop through tags ; follows, likes, and comments, according to the config file
-		loopTags()
+		log.Println("setting up cron job")
+		c := cron.New()
+		c.Start()
+		err := c.AddFunc("@every 30m", func() {
+			LoopTags()
+		})
+		if err != nil {
+			log.Fatal(err.Error())
+		}
 	}
+	sig := make(chan os.Signal)
+	signal.Notify(sig, os.Interrupt, os.Kill)
+	<-sig
 }
