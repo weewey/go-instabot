@@ -22,9 +22,7 @@ func main() {
 		log.Println("setting up cron job")
 		c := cron.New()
 		c.Start()
-		err := c.AddFunc("@every 30m", func() {
-			LoopTags()
-		})
+		err := c.AddFunc("@every 30m", LoopTags)
 		if err != nil {
 			log.Fatal(err.Error())
 		}
